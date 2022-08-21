@@ -1,10 +1,13 @@
-import { RefObject, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-type Props = {
-    ref:  RefObject<HTMLInputElement>
-}
+type Props = {}
 
 const OtpInputButton = (props: Props) => {
+    const ref = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        ref.current?.focus();
+      }, []);
+    
     const [otp,setOtp] = useState<any>();
     if ('OTPCredential' in window) {
         window.addEventListener('DOMContentLoaded', async (e) => {
@@ -13,7 +16,7 @@ const OtpInputButton = (props: Props) => {
         setOtp(code);
         });
       }
-    return <input value={otp} onChange={e => setOtp(e.target.value)} required/>
+    return <input ref={ref} value={otp} onChange={e => setOtp(e.target.value)} required/>
     
 }
 

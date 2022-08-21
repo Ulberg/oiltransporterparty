@@ -6,13 +6,11 @@ import OtpInputButton from '../features/otp/components/button'
 
 
 const Home: NextPage = () => {
-    const ref = useRef<HTMLInputElement>(null);
-
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpVisible, setOtpVisible] = useState(false);
   
-  const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{ref.current?.focus()}});
+  const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{}});
   
   
 
@@ -44,7 +42,7 @@ const Home: NextPage = () => {
       <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4 bg-slate-600">
         <input className="mb-4" value={phoneNumber} onInput={handlePhoneNumberChange} />
         <button className="p-5 border-white bg-blend-color-burn" onClick={handleSubmit} >Request Access</button>
-        {otpVisible && <OtpInputButton ref={ref} /> }
+        {otpVisible && <OtpInputButton/> }
       </main>
     </>
   );
