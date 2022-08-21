@@ -1,13 +1,26 @@
+// @ts-nocheck
 import './Create.css';
-import { ChangeEvent, useState } from 'react';
-import { trpc } from '../../../utils/trpc';
+import { useState } from 'react';
 
-type Props = {phoneNumber: number}
+type Props = {}
 
-const otpInputButton = (props: Props) => {
+const OtpInputButton = (props: Props) => {
 
-    
+    const [otp,setOtp] = useState<string>("")
 
+    if ('OTPCredential' in window) {
+        window.addEventListener('DOMContentLoaded', async (e) => {
+        try{
+            const otpResult = await navigator.credentials.get({otp: { transport:['sms'] }})
+            setOtp(otpResult.code)
+        }
+        catch(e:Error){
+            console.error(e)
+            alert(e.message)
+        }
+      })
+    }
+    return <input value={otp}/>
 }
 
-export default otpInputButton;
+export default OtpInputButton;

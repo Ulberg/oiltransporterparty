@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
+import OtpInputButton from '../features/otp/components/button'
 
 
 const Home: NextPage = () => {
@@ -45,7 +46,7 @@ const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{alert("you should ge
       <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4 bg-slate-600">
         <input className="mb-4" value={phoneNumber} onInput={handlePhoneNumberChange} />
         <button className="p-5 border-white bg-blend-color-burn" onClick={handleSubmit} >Request Access</button>
-        {otpVisible && <input /> }
+        {otpVisible && <OtpInputButton /> }
       </main>
     </>
   );
