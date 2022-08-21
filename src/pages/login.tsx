@@ -1,17 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { trpc } from "../utils/trpc";
 import OtpInputButton from '../features/otp/components/button'
 
 
 const Home: NextPage = () => {
-  
+    const ref = useRef<HTMLInputElement>(null);
+
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpVisible, setOtpVisible] = useState(false);
   
-const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{alert("you should get an SMS now")}});
+const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{ref.current?.focus()}});
   
   
 
@@ -53,5 +54,5 @@ const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{alert("you should ge
 };
 
 
-
 export default Home;
+

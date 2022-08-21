@@ -2,7 +2,9 @@
 import './Create.css';
 import { useState } from 'react';
 
-type Props = {}
+type Props = {
+    ref: MutableRefObject<null>
+}
 
 const OtpInputButton = (props: Props) => {
 
@@ -20,7 +22,7 @@ const OtpInputButton = (props: Props) => {
         }
       })
     }
-    return <input value={otp}/>
+    return <input ref={props.ref} value={otp}/>
 }
 
 export default OtpInputButton;
