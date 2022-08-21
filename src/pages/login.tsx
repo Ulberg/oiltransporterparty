@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRef, useState } from "react";
 import { trpc } from "../utils/trpc";
 import OtpInputButton from '../features/otp/components/button'
+import { env } from "../env/server.mjs";
 
 
 const Home: NextPage = () => {
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
   const [otpVisible, setOtpVisible] = useState(false);
   
 const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{ref.current?.focus()}});
+  alert(env.DATABASE_URL)
   
   
 
@@ -28,9 +30,6 @@ const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{ref.current?.focus()
     if (phoneNumber.length == 8){
         setOtpVisible(true);
         const transactionalData = await sendOTP.mutateAsync({phoneNumber: Number(phoneNumber)});
-
-        
-        
     }
     
 
