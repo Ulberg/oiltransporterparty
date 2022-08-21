@@ -9,25 +9,38 @@ const OtpInputButton = (props: Props) => {
     const [otp,setOtp] = useState<string>("")
 
     if ('OTPCredential' in window) {
-        console.log("OTP active")
         window.addEventListener('DOMContentLoaded', e => {
-            alert("adding event listner")
-        try{
+          const input = document.querySelector('input[autocomplete="one-time-code"]');
+          if (!input) return;
+          const ac = new AbortController();
+          const form = input.closest('form');
+          if (form) {
+            form.addEventListener('submit', e => {
+              ac.abort();
+            });
+          }
+          navigator.credentials.get({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            navigator.credentials.get({otp: { transport:['sms'] }}).then(otpResult=>{
-                alert("OTP having result"+(otpResult as any).code as string)
-                setOtp((otpResult as any).code as string)
-            })
-            
-        }
-        catch(e:any){
-            console.error(e)
-            alert(e.message)
-        }
-      })
-    }
-    return <input ref={props.ref} value={otp}/>
+
+            otp: { transport:['sms'] },
+            signal: ac.signal
+          }).then(otp => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            input.value = otp.code;
+            if (form) form.submit();
+          }).catch(err => {
+            console.log(err);
+          });
+        });
+      }
+    return <>
+    <form>
+    <input autoComplete="one-time-code" required/>
+    <input type="submit" />
+  </form>
+  </>
 }
 
 export default OtpInputButton;
