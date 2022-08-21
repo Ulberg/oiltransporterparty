@@ -10,11 +10,6 @@ const OtpInputButton = (props: Props) => {
     const [tempValue,setTempValue] = useState<any>();
     if ('OTPCredential' in window) {
         window.addEventListener('DOMContentLoaded', e => {
-          const input = document.querySelector('input[autocomplete="one-time-code"]');
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-          setTempValue(input.value);
-          if (!input) return;
           const ac = new AbortController();
 
           navigator.credentials.get({
@@ -23,9 +18,6 @@ const OtpInputButton = (props: Props) => {
             otp: { transport:['sms'] },
             signal: ac.signal
           }).then(otp => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            input.value = otp.code;
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setOtp(otp.code)
