@@ -23,7 +23,7 @@ export const smsRouter = createRouter()
         try
         {
             //TODO find better way to use ENV
-            const body = OTPTemplate(Otp,process.env.NEXT_PUBLIC_VERCEL_URL as string);
+            const body = OTPTemplate(Otp,process.env.VERCEL_URL as string);
             return await sendMessage(norwegianPhoneNumber,body);
         }
         catch(e){
