@@ -38,7 +38,7 @@ const OtpInputButton = (props: Props) => {
     <h1> OTP: {otp} </h1>
     <h1> Input.value: {tempValue} </h1>
     <form>
-  <input autoComplete="one-time-code" required/>
+  <input value={otp} onChange={e => setOtp(e.target.value)} required/>
   <input type="submit"/>
 </form>
     </>
