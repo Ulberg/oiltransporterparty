@@ -9,7 +9,7 @@ type TechnologyCardProps = {
 };
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
+  //const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
 
   return (
     <>
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
           />
         </div>
         <div className="pt-6 text-2xl text-blue-500 flex justify-center items-center w-full">
-          {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
+          {true ? <p>{"Hello"}</p> : <p>Loading..</p>}
         </div>
       </main>
     </>

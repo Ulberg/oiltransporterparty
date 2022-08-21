@@ -62,3 +62,12 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model WebOTP {
+    id         String    @id @default(cuid())
+    phone      String
+    password   Int
+    expires    DateTime  @default(dbgenerated("(now() + '15 minutes'::interval)"))
+    created    DateTime  @default(now())
+    @@unique([phone, password])
+}
