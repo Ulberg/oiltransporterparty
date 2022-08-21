@@ -47,7 +47,7 @@ const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{ref.current?.focus()
       <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4 bg-slate-600">
         <input className="mb-4" value={phoneNumber} onInput={handlePhoneNumberChange} />
         <button className="p-5 border-white bg-blend-color-burn" onClick={handleSubmit} >Request Access</button>
-        {otpVisible && <OtpInputButton /> }
+        {otpVisible && <OtpInputButton ref={ref} /> }
       </main>
     </>
   );
