@@ -10,14 +10,17 @@ export const smsRouter = createRouter()
         const norwegianPhoneNumber = addInternationalCode(input.phoneNumber)
         const Otp = Math.floor(100000 + Math.random() * 899999)
 
-        const noAttemptedOTPWithinLastMin = await ctx.prisma.webOTP.count({where:{
+        const attemptsWithinLastMin = await ctx.prisma.webOTP.count({where:{
             AND:[
                 {phone:norwegianPhoneNumber},
-                {created:new Date(Date.now() - 1000*60).toISOString()}
+                {created:{
+                    gte:new Date(Date.now() - 1000*60).toISOString()
+                }
+                }
             ]
-        }}) === 0
+        }})
 
-        if (!noAttemptedOTPWithinLastMin) throw new Error("You are not allowed to retry OTP more than once per min")
+        if (attemptsWithinLastMin !== 0) throw new Error("You are not allowed to retry OTP more than once per min")
 
         const dbEntry = await ctx.prisma.webOTP.create({
             data: {
