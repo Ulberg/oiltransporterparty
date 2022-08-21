@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-type Props = {}
 
-const OtpInputButton = (props: Props) => {
+
+const OtpInputButton = () => {
     const ref = useRef<HTMLInputElement>(null);
     useEffect(() => {
         ref.current?.focus();

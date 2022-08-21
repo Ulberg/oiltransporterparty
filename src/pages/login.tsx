@@ -9,8 +9,8 @@ const Home: NextPage = () => {
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpVisible, setOtpVisible] = useState(false);
-  
-  const sendOTP = trpc.useMutation("sms.otp", {onSuccess:()=>{}});
+  //TODO error handling
+  const sendOTP = trpc.useMutation("sms.otp");
   
   
 
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   const handleSubmit = async () =>{
     if (phoneNumber.length == 8){
         setOtpVisible(true);
-        const transactionalData = await sendOTP.mutateAsync({phoneNumber: Number(phoneNumber)});
+        await sendOTP.mutateAsync({phoneNumber: Number(phoneNumber)});
     }
     
 
