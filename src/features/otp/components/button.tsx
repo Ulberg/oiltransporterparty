@@ -8,9 +8,8 @@ const OtpInputButton = (props: Props) => {
     const [otp,setOtp] = useState<any>();
     if ('OTPCredential' in window) {
         window.addEventListener('DOMContentLoaded', async (e) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const {type, code} = await navigator.credentials.get({otp: { transport:['sms'] }})
+            //Double type casting because the Native Web APIs has incorrect typing for this use case 😅
+        const {code} = await navigator.credentials.get({otp: { transport:['sms'] }} as any) as any
         setOtp(code);
         });
       }
