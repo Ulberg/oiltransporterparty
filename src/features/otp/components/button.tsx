@@ -1,4 +1,3 @@
-import './Create.css';
 import { RefObject, useState } from 'react';
 
 type Props = {
