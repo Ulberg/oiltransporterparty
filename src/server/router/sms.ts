@@ -9,7 +9,16 @@ export const smsRouter = createRouter()
     resolve: async ({ input , ctx }) => {
         const norwegianPhoneNumber = addInternationalCode(input.phoneNumber)
         const Otp = Math.floor(100000 + Math.random() * 899999)
-        // should do some verification that there has not been made a OTP call for that same number in the last 1 min. 
+
+        const noAttemptedOTPWithinLastMin = await ctx.prisma.webOTP.count({where:{
+            AND:[
+                {phone:norwegianPhoneNumber},
+                {created:new Date(Date.now() - 1000*60).toISOString()}
+            ]
+        }}) === 0
+
+        if (!noAttemptedOTPWithinLastMin) throw new Error("You are not allowed to retry OTP more than once per min")
+
         const dbEntry = await ctx.prisma.webOTP.create({
             data: {
             phone: norwegianPhoneNumber,
@@ -24,7 +33,8 @@ export const smsRouter = createRouter()
         {
             //TODO find better way to use ENV
             const body = OTPTemplate(Otp,process.env.VERCEL_URL as string);
-            return await sendMessage(norwegianPhoneNumber,body);
+            const smsTransactionalData = await sendMessage(norwegianPhoneNumber,body);
+            return norwegianPhoneNumber;
         }
         catch(e){
             await ctx.prisma.webOTP.delete({where:{
